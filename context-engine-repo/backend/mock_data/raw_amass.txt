@@ -1,0 +1,5 @@
+acme-corp.example
+jenkins.acme-corp.example
+api.acme-corp.example
+staging.acme-corp.example
+auth.acme-corp.example
