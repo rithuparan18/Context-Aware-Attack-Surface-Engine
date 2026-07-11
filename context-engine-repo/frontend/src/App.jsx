@@ -1,52 +1,53 @@
-import { useState } from "react";
-import { ReactFlow } from "@xyflow/react";
+import { useState, useMemo } from "react";
+import { ReactFlow, Controls, Background } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-
 import DetailPanel from "./DetailPanel";
-import contract from "./data/contract.json"; // (Make sure final_attack_graph.json was renamed/moved here!)
+// Ensure this path matches where you saved the backend output
+import graphData from "./data/final_attack_graph.json";
 
 function App() {
-  // State to track which node the user clicked
   const [selectedNode, setSelectedNode] = useState(null);
 
-  // Map the JSON data to ReactFlow's format
-  const nodes = contract.nodes.map((node, index) => ({
-    id: node.id,
-    data: { 
-      label: node.label,
-      fullData: node // Pass the entire node dictionary so the panel can read it
-    },
-    position: {
-      x: index * 250, 
-      y: index % 2 === 0 ? 100 : 250, // Slight stagger so they aren't in a perfect straight line
-    },
-  }));
+  // Memoize graph structure to prevent unnecessary re-renders[cite: 6]
+  const { nodes, edges } = useMemo(() => {
+    const n = graphData.nodes.map((node, index) => ({
+      id: node.id,
+      position: { x: index * 250, y: 150 },
+      data: { label: node.label, fullData: node },
+      // Dynamic risk styling: High risk (ROI > 60) turns red
+      style: { 
+        background: node.roi_score > 60 ? "#ef4444" : "#10b981", 
+        color: "#fff",
+        borderRadius: "8px",
+        padding: "10px",
+        width: 150
+      },
+    }));
 
-  const edges = contract.edges.map((edge, index) => ({
-    id: `e${index}`,
-    source: edge.source,
-    target: edge.target,
-    animated: true, // Makes the attack paths look active
-  }));
+    const e = graphData.links.map((link, index) => ({
+      id: `e${index}`,
+      source: link.source,
+      target: link.target,
+      animated: true,
+      style: { stroke: "#9ca3af", strokeWidth: 2 },
+    }));
 
-  // Handle the click event
-  const handleNodeClick = (event, node) => {
-    setSelectedNode(node.data.fullData);
-  };
+    return { nodes: n, edges: e };
+  }, []);
 
   return (
     <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-      {/* Left Side: The Interactive Graph */}
-      <div style={{ flexGrow: 1, height: "100%" }}>
+      <div style={{ flexGrow: 1 }}>
         <ReactFlow 
           nodes={nodes} 
           edges={edges} 
-          onNodeClick={handleNodeClick}
-          fitView 
-        />
+          onNodeClick={(_, node) => setSelectedNode(node.data.fullData)}
+          fitView
+        >
+          <Background />
+          <Controls />
+        </ReactFlow>
       </div>
-
-      {/* Right Side: The Detail Panel */}
       <DetailPanel nodeData={selectedNode} />
     </div>
   );
