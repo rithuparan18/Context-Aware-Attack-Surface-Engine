@@ -1,0 +1,47 @@
+[
+  {
+    "id": "node_230e50e6",
+    "type": "ip",
+    "label": "192.168.1.100",
+    "source_tool": "nmap",
+    "attributes": {
+      "open_ports": [
+        80,
+        443,
+        8080
+      ]
+    },
+    "roi_score": 0.0,
+    "roi_breakdown": {},
+    "is_chokepoint": false,
+    "chokepoint_rank": null
+  },
+  {
+    "id": "node_fa5e184b",
+    "type": "domain",
+    "label": "http://Staging.Bank.com:8080",
+    "source_tool": "amass",
+    "attributes": {
+      "resolved_ip": "192.168.1.100"
+    },
+    "roi_score": 0.0,
+    "roi_breakdown": {},
+    "is_chokepoint": false,
+    "chokepoint_rank": null
+  },
+  {
+    "id": "node_76120fa4",
+    "type": "credential",
+    "label": "aws-access-token",
+    "source_tool": "gitleaks",
+    "attributes": {
+      "email": "bot@acme-corp.example",
+      "file": "config/production.yml",
+      "associated_domain": "staging.bank.com"
+    },
+    "roi_score": 0.0,
+    "roi_breakdown": {},
+    "is_chokepoint": false,
+    "chokepoint_rank": null
+  }
+]
