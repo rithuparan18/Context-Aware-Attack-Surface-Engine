@@ -1,0 +1,79 @@
+{
+    "directed": true,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [
+        {
+            "id": "node_cdd01e69",
+            "type": "ip",
+            "label": "192.168.1.100",
+            "source_tool": "nmap",
+            "attributes": {
+                "open_ports": [
+                    80,
+                    443,
+                    8080
+                ],
+                "findings": [
+                    "nmap"
+                ]
+            },
+            "roi_score": 20.0,
+            "roi_breakdown": {
+                "base_score": 20,
+                "internet_facing_bonus": 0,
+                "waf_penalty": 0,
+                "criticality_bonus": 0
+            }
+        },
+        {
+            "id": "node_1ea828e5",
+            "type": "domain",
+            "label": "staging.bank.com",
+            "source_tool": "amass",
+            "attributes": {
+                "resolved_ip": "192.168.1.100",
+                "findings": [
+                    "amass"
+                ]
+            },
+            "roi_score": 20.0,
+            "roi_breakdown": {
+                "base_score": 20,
+                "internet_facing_bonus": 0,
+                "waf_penalty": 0,
+                "criticality_bonus": 0
+            }
+        },
+        {
+            "id": "node_d8888018",
+            "type": "credential",
+            "label": "aws-access-token",
+            "source_tool": "gitleaks",
+            "attributes": {
+                "email": "bot@acme-corp.example",
+                "file": "config/production.yml",
+                "associated_domain": "staging.bank.com",
+                "findings": [
+                    "gitleaks"
+                ]
+            },
+            "roi_score": 20.0,
+            "roi_breakdown": {
+                "base_score": 20,
+                "internet_facing_bonus": 0,
+                "waf_penalty": 0,
+                "criticality_bonus": 0
+            }
+        }
+    ],
+    "links": [
+        {
+            "id": "7e4b3f48750eb9d77cc3ccfc3f399c93",
+            "relationship": "grants_access_to",
+            "confidence": 0.85,
+            "source": "node_d8888018",
+            "target": "node_1ea828e5"
+        }
+    ]
+}

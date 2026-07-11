@@ -84,15 +84,18 @@ def run_correlation_engine(raw_data_list: list[dict]):
                 edge_id = generate_edge_id(sub['id'], dom['id'], "belongs_to")
                 graph.add_edge(sub['id'], dom['id'], id=edge_id, relationship="belongs_to", confidence=1.0)
 
-    # Rule 2: Credential -> Target Asset (grants_access_to)
+    # Rule 2: Credential -> Target Asset (grants_access_to) - HOTFIXED
     for cred in credentials:
         attributes = cred.get("attributes", {})
-        target_domain_id = attributes.get("associated_domain")
+        target_domain_label = attributes.get("associated_domain")
         
-        if target_domain_id and target_domain_id in unique_nodes_dict:
-            edge_id = generate_edge_id(cred['id'], target_domain_id, "grants_access_to")
-            graph.add_edge(cred['id'], target_domain_id, id=edge_id, relationship="grants_access_to", confidence=0.85)
-            print(f"[Match Found!] Linked Credential {cred['id']} -> Asset {target_domain_id}")
+        if target_domain_label:
+            # Loop through the known domains to find the exact label match
+            for dom in domains:
+                if dom['label'] == target_domain_label:
+                    edge_id = generate_edge_id(cred['id'], dom['id'], "grants_access_to")
+                    graph.add_edge(cred['id'], dom['id'], id=edge_id, relationship="grants_access_to", confidence=0.85)
+                    print(f"[Match Found!] Linked Credential {cred['id']} -> Asset {dom['id']}")
 
     print("\n=== CORRELATION ENGINE PROCESSING COMPLETE ===")
     print(f"Total Unique Graph Nodes Stored: {graph.number_of_nodes()}")
