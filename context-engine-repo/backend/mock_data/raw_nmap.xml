@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nmaprun>
+  <host>
+    <address addr="192.168.1.50" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="jenkins.acme-corp.example" type="user"/>
+    </hostnames>
+    <ports>
+      <port protocol="tcp" portid="8080">
+        <state state="open" reason="syn-ack"/>
+        <service name="http" product="Jetty" version="9.4.z-SNAPSHOT"/>
+      </port>
+    </ports>
+  </host>
+  <host>
+    <address addr="192.168.1.51" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="api.acme-corp.example" type="user"/>
+    </hostnames>
+    <ports>
+      <port protocol="tcp" portid="443">
+        <state state="open" reason="syn-ack"/>
+        <service name="https" tunnel="ssl" product="nginx" version="1.25.1"/>
+      </port>
+    </ports>
+  </host>
+</nmaprun>
