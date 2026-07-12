@@ -1,0 +1,33 @@
+{
+  "directed": true,
+  "multigraph": false,
+  "nodes": [
+    { "id": "n1", "x": 0, "y": 300, "type": "actor", "label": "External Attacker", "roi_score": 0, "roi_breakdown": {"base": 0} },
+    { "id": "n2", "x": 300, "y": 100, "type": "gateway", "label": "vpn.bank.com", "roi_score": 40, "roi_breakdown": {"base": 40} },
+    { "id": "n3", "x": 300, "y": 300, "type": "gateway", "label": "api.bank.com (WAF)", "roi_score": 25, "roi_breakdown": {"base": 25} },
+    { "id": "n4", "x": 300, "y": 500, "type": "credential", "label": "Leaked SSH Key", "roi_score": 80, "roi_breakdown": {"base": 50, "criticality": 30} },
+    { "id": "n5", "x": 600, "y": 100, "type": "workstation", "label": "IT-Admin-Laptop", "roi_score": 65, "roi_breakdown": {"base": 40, "privilege_bonus": 25} },
+    { "id": "n6", "x": 600, "y": 300, "type": "server", "label": "Frontend Web Server", "roi_score": 35, "roi_breakdown": {"base": 35} },
+    { "id": "n7", "x": 600, "y": 500, "type": "service", "label": "GitHub Enterprise", "roi_score": 75, "roi_breakdown": {"base": 45, "criticality": 30} },
+    { "id": "n8", "x": 900, "y": 200, "type": "service", "label": "K8s Control Plane", "roi_score": 90, "roi_breakdown": {"base": 60, "criticality": 30} },
+    { "id": "n9", "x": 900, "y": 400, "type": "service", "label": "Jenkins CI/CD", "roi_score": 85, "roi_breakdown": {"base": 50, "criticality": 35} },
+    { "id": "n10", "x": 1200, "y": 300, "type": "cloud", "label": "AWS IAM Admin Role", "roi_score": 95, "roi_breakdown": {"base": 45, "criticality": 50} },
+    { "id": "n11", "x": 1500, "y": 150, "type": "database", "label": "Prod Customer DB", "roi_score": 100, "roi_breakdown": {"base": 50, "criticality": 50} },
+    { "id": "n12", "x": 1500, "y": 450, "type": "storage", "label": "S3 PII Backups", "roi_score": 100, "roi_breakdown": {"base": 50, "criticality": 50} }
+  ],
+  "links": [
+    { "source": "n1", "target": "n2", "confidence": 0.8 },
+    { "source": "n1", "target": "n3", "confidence": 0.9 },
+    { "source": "n4", "target": "n7", "confidence": 1.0 },
+    { "source": "n2", "target": "n5", "confidence": 0.7 },
+    { "source": "n3", "target": "n6", "confidence": 0.9 },
+    { "source": "n5", "target": "n8", "confidence": 0.85 },
+    { "source": "n5", "target": "n7", "confidence": 0.9 },
+    { "source": "n6", "target": "n11", "confidence": 0.4 },
+    { "source": "n7", "target": "n9", "confidence": 0.95 },
+    { "source": "n8", "target": "n10", "confidence": 0.8 },
+    { "source": "n9", "target": "n10", "confidence": 0.9 },
+    { "source": "n10", "target": "n11", "confidence": 1.0 },
+    { "source": "n10", "target": "n12", "confidence": 1.0 }
+  ]
+}

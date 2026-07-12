@@ -1,3 +1,5 @@
+import React from "react";
+
 // Helper sub-component for clean rendering
 const StatItem = ({ label, value }) => (
   <div style={{ marginBottom: "10px" }}>
